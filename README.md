@@ -35,7 +35,6 @@ You can search universities using the following public API:
 
 ### Response
 
-```json
 [
   {
     "domains": ["itu.edu.pk"],
@@ -53,13 +52,12 @@ You can search universities using the following public API:
     "name": "Abasyn University Peshawar",
     "state-province": "Khyber Pakhtunkhwa"
   }
-] ```
+]
 
-
-## Run the Project
+### Run the Project
  - git clone https://github.com/MehranAli0312/University-Domain.git
  - Open the project in Android Studio.
  - Build and run on an Android device or emulator.
 
-## Contribution
+### Contribution
 Please contribute to this list! We need your support to keep this list up-to-date. If you find any incorrect data, feel free to fix it by opening a pull request or creating an issue.
