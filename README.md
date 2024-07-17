@@ -53,7 +53,8 @@ You can search universities using the following public API:
     "name": "Abasyn University Peshawar",
     "state-province": "Khyber Pakhtunkhwa"
   }
-]
+] ```
+
 
 ## Run the Project
  - git clone https://github.com/MehranAli0312/University-Domain.git
