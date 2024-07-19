@@ -21,6 +21,7 @@ fun EditText.afterTextChanged(afterTextChanged: (String) -> Unit) {
 }
 
 fun Context.showToast(msg: String) = Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
+fun Context.showToastLong(msg: String) = Toast.makeText(this, msg, Toast.LENGTH_LONG).show()
 
 fun View.setVisible(isVisible: Boolean) {
     visibility = if (isVisible) View.VISIBLE else View.GONE

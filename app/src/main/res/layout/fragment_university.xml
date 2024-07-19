@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.fragments.CountryFragment">
+    tools:context=".ui.fragments.UniversitiesFragment">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -65,19 +65,19 @@
         app:shapeAppearance="@style/circularImage" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvPhoto"
+        android:id="@+id/rvUniversities"
         android:layout_width="0dp"
-        android:visibility="gone"
         android:layout_height="0dp"
         android:layout_marginTop="@dimen/_20sdp"
         android:orientation="vertical"
         android:paddingBottom="@dimen/_10sdp"
+        android:visibility="gone"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edtQuestion"
-        tools:listitem="@layout/country_item" />
+        tools:listitem="@layout/university_item" />
 
     <ProgressBar
         android:id="@+id/pBarLoading"
@@ -94,8 +94,8 @@
         android:id="@+id/emptyDataPlaceHolder"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:src="@drawable/no_data_found"
         android:scaleType="center"
+        android:src="@drawable/no_data_found"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

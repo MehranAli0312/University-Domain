@@ -11,6 +11,7 @@ import kotlinx.coroutines.launch
 
 class CountryViewModel(private val repository: ApiRepository) : ViewModel() {
 
+
     private val _universityList = MutableLiveData<DataStatus<UniversityModel>>()
     val universityList: LiveData<DataStatus<UniversityModel>>
         get() = _universityList

@@ -49,7 +49,7 @@
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="@+id/universityName"
             app:layout_constraintStart_toStartOf="@+id/universityName"
-            app:layout_constraintTop_toBottomOf="@+id/toggleView">
+            app:layout_constraintTop_toBottomOf="@+id/universityName">
 
             <TextView
                 android:id="@+id/universityDomains"

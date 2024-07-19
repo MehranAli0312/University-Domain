@@ -1,24 +1,27 @@
 package com.example.genesis.utils
 
+sealed class DataStatus<out T> {
+    data class Loading<out T>(val timestamp: Long = System.currentTimeMillis()) : DataStatus<T>()
+    data class Success<out T>(val data: T?, val timestamp: Long = System.currentTimeMillis()) :
+        DataStatus<T>()
 
-data class DataStatus<out T>(val status: Status, val data: T? = null, val message: String? = null) {
-
-    enum class Status {
-        LOADING, SUCCESS, ERROR
-    }
+    data class Error<out T>(
+        val error: String,
+        val code: Int? = null,
+        val timestamp: Long = System.currentTimeMillis()
+    ) : DataStatus<T>()
 
     companion object {
         fun <T> loading(): DataStatus<T> {
-            return DataStatus(Status.LOADING)
+            return Loading()
         }
 
         fun <T> success(data: T?): DataStatus<T> {
-            return DataStatus(Status.SUCCESS, data)
+            return Success(data)
         }
 
-        fun <T> error(error: String): DataStatus<T> {
-            return DataStatus(Status.ERROR, message = error)
+        fun <T> error(error: String, code: Int? = null): DataStatus<T> {
+            return Error(error, code)
         }
-
     }
 }

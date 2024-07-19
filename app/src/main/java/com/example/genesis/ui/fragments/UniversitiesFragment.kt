@@ -8,23 +8,27 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
+import androidx.fragment.app.setFragmentResultListener
 import androidx.navigation.NavController
 import androidx.navigation.fragment.findNavController
-import com.example.genesis.adapter.CountryAdapter
-import com.example.genesis.databinding.FragmentCountryBinding
+import com.example.genesis.adapter.UniversityAdapter
+import com.example.genesis.databinding.FragmentUniversityBinding
 import com.example.genesis.utils.Constants
+import com.example.genesis.utils.Constants.countryNameKey
+import com.example.genesis.utils.Constants.requestKey
 import com.example.genesis.utils.DataStatus
 import com.example.genesis.utils.setVisible
 import com.example.genesis.utils.showLog
 import com.example.genesis.utils.showToast
+import com.example.genesis.utils.showToastLong
 import com.example.genesis.viewmodel.CountryViewModel
 import org.koin.android.ext.android.inject
 
 
-class CountryFragment : Fragment() {
+class UniversitiesFragment : Fragment() {
 
     private val binding by lazy {
-        FragmentCountryBinding.inflate(layoutInflater)
+        FragmentUniversityBinding.inflate(layoutInflater)
     }
 
 
@@ -32,11 +36,11 @@ class CountryFragment : Fragment() {
 
     private val viewModel: CountryViewModel by inject()
 
-    private val countryAdapter by lazy {
-        CountryAdapter {
+    private val universityAdapter by lazy {
+        UniversityAdapter {
             try {
                 navController.navigate(
-                    CountryFragmentDirections.actionCountryFragmentToUniversityDetailFragment(
+                    UniversitiesFragmentDirections.actionUniversityFragmentToUniversityDetailFragment(
                         it
                     )
                 )
@@ -74,15 +78,26 @@ class CountryFragment : Fragment() {
             listenQuery()
         }
         observeData()
+        listenResultListener()
     }
 
-    private fun FragmentCountryBinding.setupRecyclerView() {
-        rvPhoto.apply {
-            adapter = countryAdapter
+    private fun listenResultListener() {
+        // Set up the result listener
+        setFragmentResultListener(requestKey) { _, bundle ->
+            val result = bundle.getString(countryNameKey)
+            result?.let {
+                binding.edtQuestion.setText(it)
+            }
         }
     }
 
-    private fun FragmentCountryBinding.listenQuery() {
+    private fun FragmentUniversityBinding.setupRecyclerView() {
+        rvUniversities.apply {
+            adapter = universityAdapter
+        }
+    }
+
+    private fun FragmentUniversityBinding.listenQuery() {
         binding.search.setOnClickListener {
             val countryName = edtQuestion.text.toString().trim()
             if (countryName.isEmpty()) {
@@ -95,6 +110,7 @@ class CountryFragment : Fragment() {
                     hideKeyboard()
                 } else {
                     mContext?.showToast("Your country name doesn't match.")
+                    navController.navigate(UniversitiesFragmentDirections.actionUniversityFragmentToCountryNameDialogFragment())
                 }
             }
         }
@@ -102,20 +118,20 @@ class CountryFragment : Fragment() {
 
     private fun observeData() {
         viewModel.universityList.observe(viewLifecycleOwner) {
-            when (it.status) {
-                DataStatus.Status.LOADING -> {
+            when (it) {
+                is DataStatus.Loading -> {
                     showProgressBar(isShownRV = false, isShownPb = true, false)
                 }
 
-                DataStatus.Status.SUCCESS -> {
+                is DataStatus.Success -> {
                     showProgressBar(isShownRV = true, isShownPb = false, false)
                     binding.edtQuestion.setText("")
-                    it.data?.let { it1 -> countryAdapter.differ.submitList(it1) }
+                    it.data?.let { it1 -> universityAdapter.differ.submitList(it1) }
                 }
 
-                DataStatus.Status.ERROR -> {
+                is DataStatus.Error -> {
                     showProgressBar(isShownRV = false, isShownPb = false, true)
-                    mContext?.showToast("There is something wrong!")
+                    mContext?.showToastLong(it.error)
                 }
             }
         }
@@ -123,7 +139,7 @@ class CountryFragment : Fragment() {
 
     private fun showProgressBar(isShownRV: Boolean, isShownPb: Boolean, isEmptyData: Boolean) {
         binding.apply {
-            rvPhoto.setVisible(isShownRV)
+            rvUniversities.setVisible(isShownRV)
             pBarLoading.setVisible(isShownPb)
             emptyDataPlaceHolder.setVisible(isEmptyData)
         }

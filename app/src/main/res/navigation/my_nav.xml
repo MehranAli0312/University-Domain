@@ -3,17 +3,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/my_nav"
-    app:startDestination="@id/countryFragment">
+    app:startDestination="@id/universityFragment">
 
     <fragment
-        android:id="@+id/countryFragment"
-        android:name="com.example.genesis.ui.fragments.CountryFragment"
-        android:label="fragment_country"
-        tools:layout="@layout/fragment_country">
+        android:id="@+id/universityFragment"
+        android:name="com.example.genesis.ui.fragments.UniversitiesFragment"
+        android:label="fragment_university"
+        tools:layout="@layout/fragment_university">
 
         <action
-            android:id="@+id/action_countryFragment_to_universityDetailFragment"
+            android:id="@+id/action_universityFragment_to_universityDetailFragment"
             app:destination="@id/universityDetailFragment" />
+        <action
+            android:id="@+id/action_universityFragment_to_countryNameDialogFragment"
+            app:destination="@id/countryNameDialogFragment" />
+
     </fragment>
 
     <fragment
@@ -28,5 +32,11 @@
             app:nullable="true" />
 
     </fragment>
+
+    <dialog
+        android:id="@+id/countryNameDialogFragment"
+        android:name="com.example.genesis.ui.dialogs.CountryNamesDialogFragment"
+        android:label="fragment_countryNameDialog"
+        tools:layout="@layout/fragment_country_names" />
 
 </navigation>

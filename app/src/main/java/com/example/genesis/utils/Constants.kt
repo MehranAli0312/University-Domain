@@ -6,6 +6,9 @@ object Constants {
 
     const val NETWORK_TIMEOUT = 60L
 
+    const val requestKey = "requestKey"
+    const val countryNameKey = "countryNameKey"
+
     val countriesNames = listOf(
         "Afghanistan", "Albania", "Algeria", "Andorra", "Angola", "Antigua and Barbuda",
         "Argentina", "Armenia", "Australia", "Austria", "Azerbaijan", "Bahamas",

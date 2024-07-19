@@ -4,4 +4,5 @@
     <string name="detail">"Details"</string>
     <string name="ask_me_anything">Enter country name</string>
     <string name="direction">Direction</string>
+    <string name="selectCountry">Select Country</string>
 </resources>
