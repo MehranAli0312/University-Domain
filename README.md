@@ -54,6 +54,19 @@ You can search universities using the following public API:
   }
 ]
 
+## Screenshots
+
+![Screenshot_2024-07-19-11-05-43-554_com example genesis](https://github.com/user-attachments/assets/34404e09-eb62-4c5c-9190-dbc350d5d381)
+
+### if country name does't match:
+![Screenshot_2024-07-19-11-06-11-448_com example genesis](https://github.com/user-attachments/assets/daa2a4d5-cc77-426b-9794-8a1d56f9ae99)
+
+![Screenshot_2024-07-19-11-06-36-712_com example genesis](https://github.com/user-attachments/assets/d7a3645e-eca1-490b-ab9b-6497baaa4bc7)
+![Screenshot_2024-07-19-11-06-49-967_com example genesis](https://github.com/user-attachments/assets/d4aa036f-6425-4ca1-8c61-1cf58e47ee66)
+![Screenshot_2024-07-19-11-07-08-656_com google android apps maps](https://github.com/user-attachments/assets/6016ae36-ce1e-4f22-a4dc-a83743212d45)
+
+
+
 ### Run the Project
  - git clone https://github.com/MehranAli0312/University-Domain.git
  - Open the project in Android Studio.
