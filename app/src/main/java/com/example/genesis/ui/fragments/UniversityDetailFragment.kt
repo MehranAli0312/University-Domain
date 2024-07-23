@@ -20,23 +20,27 @@ import kotlinx.coroutines.launch
 
 class UniversityDetailFragment : Fragment() {
 
+    // Lazy initialization of binding
     private val binding by lazy { FragmentUniversityDetailBinding.inflate(layoutInflater) }
 
     private lateinit var mContext: Context
     private lateinit var mActivity: Activity
+
+    // Attach the fragment to the context and initialize mContext and mActivity
     override fun onAttach(context: Context) {
         super.onAttach(context)
         mContext = context
         mActivity = context as Activity
     }
 
+    // Inflate the layout for this fragment
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        // Inflate the layout for this fragment
         return binding.root
     }
 
+    // Set up views and data after the view has been created
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -44,6 +48,7 @@ class UniversityDetailFragment : Fragment() {
         binding.clickListen()
     }
 
+    // Extension function to retrieve and set argument data to the views
     @SuppressLint("SetTextI18n")
     private fun FragmentUniversityDetailBinding.getArgData() {
         // Safely retrieve the arguments and cast them
@@ -51,8 +56,8 @@ class UniversityDetailFragment : Fragment() {
             UniversityDetailFragmentArgs.fromBundle(it)
         }
 
+        // Populate views with university model data if available
         args?.universityModel?.let { item ->
-            // Use the universityModel object
             universityName.text = "University Name: ${item.universityName}"
             universityDomains.text = "Domains: ${item.universityDomains[0]}"
             countryCode.text = "Country Code: ${item.countryCode}"
@@ -62,13 +67,14 @@ class UniversityDetailFragment : Fragment() {
         }
     }
 
+    // Extension function to set click listeners for buttons
     private fun FragmentUniversityDetailBinding.clickListen() {
         openMapView.setOnClickListener {
             val name = universityName.text.toString()
             if (name.isNotEmpty()) {
                 lifecycleScope.launch {
-                    val latLngResult =
-                        LatLngGeocoder.getLatLngFromLocationName(mContext, name)
+                    // Fetch latitude and longitude for the university name
+                    val latLngResult = LatLngGeocoder.getLatLngFromLocationName(mContext, name)
                     latLngResult?.let {
                         openMap(it.latitude, it.longitude, name)
                     } ?: run {
@@ -76,17 +82,17 @@ class UniversityDetailFragment : Fragment() {
                     }
                 }
             } else {
-                mContext.showToast("you have no destination...!")
+                mContext.showToast("You have no destination...!")
             }
         }
 
         buttonBack.setOnClickListener {
+            // Navigate back to the previous screen
             findNavController().navigateUp()
         }
-
     }
 
-
+    // Function to open a map app with the given coordinates and label
     private fun openMap(lat: Double, lng: Double, label: String) {
         try {
             val uri = Uri.parse("geo:$lat,$lng?q=$lat,$lng($label)")
@@ -95,6 +101,7 @@ class UniversityDetailFragment : Fragment() {
             }
             startActivity(intent)
         } catch (e: Exception) {
+            // Fallback to open the location in a web browser if Google Maps is not available
             val webUri = Uri.parse("https://www.google.com/maps/search/?api=1&query=$lat,$lng")
             val webIntent = Intent(Intent.ACTION_VIEW, webUri)
             startActivity(webIntent)
