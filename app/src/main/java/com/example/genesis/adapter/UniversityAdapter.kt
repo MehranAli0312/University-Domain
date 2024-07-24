@@ -14,7 +14,7 @@ import com.example.genesis.utils.hide
 import com.example.genesis.utils.show
 
 
-class UniversityAdapter(private val clickOnItem: (item: UniversityModelItem) -> Unit) :
+class UniversityAdapter(private val clickOnItem: (item: UniversityModelItem) -> Unit,private val clickOnShareItem: (item: UniversityModelItem) -> Unit) :
     RecyclerView.Adapter<UniversityAdapter.UniversityViewHolder>() {
 
     // Creates and inflates the ViewHolder for the RecyclerView
@@ -64,6 +64,10 @@ class UniversityAdapter(private val clickOnItem: (item: UniversityModelItem) -> 
                 // Handle item click to trigger the passed lambda function
                 root.setOnClickListener {
                     clickOnItem(item)
+                }
+
+                shareView.setOnClickListener {
+                    clickOnShareItem(item)
                 }
             }
         }

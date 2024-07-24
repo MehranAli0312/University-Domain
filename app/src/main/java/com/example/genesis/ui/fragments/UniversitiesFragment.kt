@@ -2,6 +2,7 @@ package com.example.genesis.ui.fragments
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -40,16 +41,27 @@ class UniversitiesFragment : Fragment() {
 
     // Adapter for the RecyclerView, initialized lazily
     private val universityAdapter by lazy {
-        UniversityAdapter {
+        UniversityAdapter({
             // Navigate to UniversityDetailFragment with the selected university's data
             try {
                 navController.navigate(
-                    UniversitiesFragmentDirections.actionUniversityFragmentToUniversityDetailFragment(it)
+                    UniversitiesFragmentDirections.actionUniversityFragmentToUniversityDetailFragment(
+                        it
+                    )
                 )
             } catch (ex: Exception) {
                 showLog("${ex.message}")
             }
-        }
+        }, {
+            val sendIntent: Intent = Intent().apply {
+                action = Intent.ACTION_SEND
+                putExtra(Intent.EXTRA_TEXT, "University Name : ${it.universityName}")
+                type = "text/plain"
+            }
+
+            val shareIntent = Intent.createChooser(sendIntent, null)
+            startActivity(shareIntent)
+        })
     }
 
     // Context and Activity references
@@ -115,7 +127,8 @@ class UniversitiesFragment : Fragment() {
             if (countryName.isEmpty()) {
                 edtQuestion.error = "Please enter a country name."
             } else {
-                val countryExists = Constants.countriesNames.any { it.equals(countryName, ignoreCase = true) }
+                val countryExists =
+                    Constants.countriesNames.any { it.equals(countryName, ignoreCase = true) }
                 if (countryExists) {
                     // Fetch universities for the entered country
                     viewModel.getUniversities(countryName)
@@ -139,7 +152,11 @@ class UniversitiesFragment : Fragment() {
                 is DataStatus.Success -> {
                     showProgressBar(isShownRV = true, isShownPb = false, isEmptyData = false)
                     binding.edtQuestion.setText("")
-                    it.data?.let { universityList -> universityAdapter.differ.submitList(universityList) }
+                    it.data?.let { universityList ->
+                        universityAdapter.differ.submitList(
+                            universityList
+                        )
+                    }
                 }
 
                 is DataStatus.Error -> {
@@ -163,7 +180,8 @@ class UniversitiesFragment : Fragment() {
     private fun hideKeyboard() {
         val view = mActivity?.currentFocus
         if (view != null) {
-            val imm = mActivity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            val imm =
+                mActivity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
             imm.hideSoftInputFromWindow(view.windowToken, 0)
         }
     }
